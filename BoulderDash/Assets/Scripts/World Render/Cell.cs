@@ -15,4 +15,9 @@ public class Cell
     {
         return cellKind;
     }
+
+    public void SetCellKind(CellKind cell)
+    {
+        cellKind = cell;
+    }
 }

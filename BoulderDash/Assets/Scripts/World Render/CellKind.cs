@@ -9,5 +9,6 @@ public enum CellKind
     Boulder,
     Brick,
     Player,
-    Exit
+    Exit,
+    OutOfBounds
 }

@@ -61,6 +61,17 @@ public class Level : MonoBehaviour
 
     public CellKind GetCellByPosition(int x, int y)
     {
+        if (x >= rows || y >= columns || x < 0 || y < 0)
+            return CellKind.OutOfBounds;
+        
         return board[x, y].GetCellKind();
+    }
+
+    public void ChangeCell(int x, int y, CellKind cell)
+    {
+        if (x >= rows || y >= columns || x < 0 || y < 0)
+            return;
+        
+        board[x, y].SetCellKind(cell);
     }
 }
