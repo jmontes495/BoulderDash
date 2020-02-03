@@ -10,4 +10,9 @@ public class Cell
     {
         cellKind = kind;
     }
+
+    public CellKind GetCellKind()
+    {
+        return cellKind;
+    }
 }

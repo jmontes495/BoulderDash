@@ -23,13 +23,30 @@ public class Level : MonoBehaviour
         board = new Cell[rows, columns];
 
         foreach (Vector2Int boulderPos in boulderPositions)
-            board[boulderPos.x, boulderPos.y] = new Cell(CellKind.Boulder);
+        {
+            int x = boulderPos.x >= rows ? rows - 1 : boulderPos.x;
+            int y = boulderPos.y >= columns ? columns - 1 : boulderPos.y;
+            board[x, y] = new Cell(CellKind.Boulder);
+        }
 
         foreach (Vector2Int brickPos in brickPosition)
-            board[brickPos.x, brickPos.y] = new Cell(CellKind.Brick);
+        {
+            int x = brickPos.x >= rows ? rows - 1 : brickPos.x;
+            int y = brickPos.y >= columns ? columns - 1 : brickPos.y;
+            board[x, y] = new Cell(CellKind.Brick);
+        }
 
-        board[playerInitialPosition.x, playerInitialPosition.y] = new Cell(CellKind.Player);
-        board[exitPosition.x, exitPosition.y] = new Cell(CellKind.Exit);
+        board[playerInitialPosition.x >= rows ? rows - 1 : playerInitialPosition.x, playerInitialPosition.y >= columns ? columns - 1 : playerInitialPosition.y] = new Cell(CellKind.Player);
+        board[exitPosition.x >= rows ? rows - 1 : exitPosition.x, exitPosition.y >= columns ? columns - 1 : exitPosition.y] = new Cell(CellKind.Exit);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (board[i, j] == null)
+                    board[i, j] = new Cell(CellKind.Dirt);
+            }
+        }
     }
 
     public int GetRows()
@@ -40,5 +57,10 @@ public class Level : MonoBehaviour
     public int GetColumns()
     {
         return columns;
+    }
+
+    public CellKind GetCellByPosition(int x, int y)
+    {
+        return board[x, y].GetCellKind();
     }
 }
