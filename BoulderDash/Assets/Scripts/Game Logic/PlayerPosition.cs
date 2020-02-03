@@ -60,7 +60,7 @@ public class PlayerPosition : MonoBehaviour
                 break;
         }
 
-        bool result = GameController.Instance.TryMovePlayer(xPosition, yPosition, x, y);
+        bool result = GameController.Instance.TryMovePlayer(xPosition, yPosition, x, y, direction);
         if (result)
         {
             xPosition = x;

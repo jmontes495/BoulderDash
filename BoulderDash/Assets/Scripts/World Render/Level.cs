@@ -12,13 +12,8 @@ public class Level : MonoBehaviour
     [SerializeField] private Vector2Int exitPosition;
 
     private Cell[,] board;
-    // Start is called before the first frame update
-    void Start()
-    {
-        LoadLevel();
-    }
 
-    void LoadLevel()
+    public void LoadLevel()
     {
         board = new Cell[rows, columns];
 

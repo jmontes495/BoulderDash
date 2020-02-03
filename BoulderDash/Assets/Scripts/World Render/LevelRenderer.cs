@@ -33,7 +33,34 @@ public class LevelRenderer : MonoBehaviour
         }
 
         Level level = GetComponent<Level>();
+        level.LoadLevel();
         RenderLevel(level);
+    }
+
+    public void ChangeRenderingReference(int newY, int newX, Direction direction)
+    {
+        //rowRendering = newY;
+        //columnRendering = newX;
+        switch(direction)
+        {
+            case Direction.Right:
+                if (newX > columnLimit - 1)
+                    columnRendering = 1;
+                else
+                    columnRendering++;
+                break;
+
+            case Direction.Left:
+                if (newX < 1)
+                    columnRendering = columnLimit - 1;
+                else
+                    columnRendering--;
+                break;
+                
+        }
+        //rowRendering = newY;
+        //columnRendering = newX;
+
     }
 
     public void RenderLevel(Level level)
@@ -41,17 +68,17 @@ public class LevelRenderer : MonoBehaviour
         int rows = level.GetRows();
         int columns = level.GetColumns();
 
-        if (level.GetRows() < rowLimit)
+        if (rows >= rowLimit)
             rows = rowLimit;
 
-        if (level.GetColumns() < columnLimit)
+        if (columns >= columnLimit)
             columns = columnLimit;
 
-        for (int i = rowRendering; i < rowRendering + rows; i++)
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = columnRendering; j < columnRendering + columns; j++)
+            for (int j = 0; j < columns; j++)
             {
-                board[i, j].SetCell(level.GetCellByPosition(i, j));
+                board[i, j].SetCell(level.GetCellByPosition(rowRendering + i, columnRendering + j));
             }
 
         }

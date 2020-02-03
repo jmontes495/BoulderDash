@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Level currentLevel;
 
-    public bool TryMovePlayer(int lastX, int lastY, int newX, int newY)
+    public bool TryMovePlayer(int lastX, int lastY, int newX, int newY, Direction direction)
     {
         CellKind futureCell = currentLevel.GetCellByPosition(newX, newY);
         bool result = false;
@@ -47,7 +47,12 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        levelRenderer.RenderLevel(currentLevel);
+        if(result)
+        {
+            levelRenderer.ChangeRenderingReference(newX, newY, direction);
+            levelRenderer.RenderLevel(currentLevel);
+        }
+
         return result;
     }
 }
