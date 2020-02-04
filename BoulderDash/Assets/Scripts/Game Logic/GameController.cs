@@ -12,14 +12,17 @@ public class GameController : MonoBehaviour
         set { }
     }
 
-    [SerializeField]
-    private LevelRenderer levelRenderer;
+    private PlayerMovementController playerMovementController;
+    private BoulderMovementController boulderMovementController;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            playerMovementController = new PlayerMovementController();
+            boulderMovementController = new BoulderMovementController();
+            gameInProgress = true;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -27,87 +30,45 @@ public class GameController : MonoBehaviour
     }
 
     [SerializeField]
-    private Level currentLevel;
+    protected LevelRenderer levelRenderer;
+    [SerializeField]
+    protected Level currentLevel;
+
+    protected bool gameInProgress;
+    public bool GameInProgress
+    {
+        get { return gameInProgress; }
+        set { gameInProgress = value; }
+    }
+
+    public CellKind GetCellByPosition(int newX, int newY)
+    {
+        return currentLevel.GetCellByPosition(newX, newY);
+    }
+
+    public void ChangeCell(int newX, int newY, CellKind cellKind)
+    {
+        currentLevel.ChangeCell(newX, newY, cellKind);
+    }
 
     public bool TryMovePlayer(int lastX, int lastY, int newX, int newY, Direction direction)
     {
-        CellKind futureCell = currentLevel.GetCellByPosition(newX, newY);
-        bool result = false;
-
-        switch(futureCell)
-        {
-            case CellKind.Dirt:
-            case CellKind.Empty:
-            case CellKind.Gem:
-                currentLevel.ChangeCell(newX, newY, CellKind.Player);
-                currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
-                result = true;
-                break;
-            case CellKind.Boulder:
-                if (direction == Direction.Left && currentLevel.GetCellByPosition(newX, newY - 1) == CellKind.Empty)
-                {
-                    currentLevel.ChangeCell(newX, newY - 1, CellKind.Boulder);
-                    currentLevel.ChangeCell(newX, newY, CellKind.Player);
-                    currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
-                    result = true;
-                }
-                else if (direction == Direction.Right && currentLevel.GetCellByPosition(newX, newY + 1) == CellKind.Empty)
-                {
-                    currentLevel.ChangeCell(newX, newY + 1, CellKind.Boulder);
-                    currentLevel.ChangeCell(newX, newY, CellKind.Player);
-                    currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
-                    result = true;
-                }
-                break;
-            default:
-                result = false;
-                break;
-        }
-
-        if(result)
+        bool result = playerMovementController.TryMovePlayerByDirection(lastX, lastY, newX, newY, direction);
+        if (result)
         {
             levelRenderer.ChangeRenderingReference(newX, newY, direction);
             levelRenderer.RenderLevel(currentLevel);
         }
-
         return result;
     }
 
     public Direction TryToDropBoulder(int x, int y, Vector2Int fallingStart)
     {
-        Direction result = Direction.None;
-        if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Empty)
-        {
-            currentLevel.ChangeCell(x, y, CellKind.Empty);
-            currentLevel.ChangeCell(x + 1, y, CellKind.Boulder);
-            result = Direction.Down;
-        }
-        else if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Player && fallingStart.x != -1)
-        {
-            result = Direction.None;
-            Debug.LogError("You Died!");
-        }
-        else if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Brick || currentLevel.GetCellByPosition(x + 1, y) == CellKind.Boulder)
-        {
-            if (currentLevel.GetCellByPosition(x, y + 1) == CellKind.Empty && currentLevel.GetCellByPosition(x + 1, y + 1) == CellKind.Empty)
-            {
-                currentLevel.ChangeCell(x, y, CellKind.Empty);
-                currentLevel.ChangeCell(x, y + 1, CellKind.Boulder);
-                result = Direction.Right;
-            }
-            else if (currentLevel.GetCellByPosition(x, y - 1) == CellKind.Empty && currentLevel.GetCellByPosition(x + 1, y - 1) == CellKind.Empty)
-            {
-                currentLevel.ChangeCell(x, y, CellKind.Empty);
-                currentLevel.ChangeCell(x, y - 1, CellKind.Boulder);
-                result = Direction.Left;
-            }
-        }
-
+        Direction result = boulderMovementController.TryToDropBoulder(x, y, fallingStart);
         if (result != Direction.None)
         {
             levelRenderer.RenderLevel(currentLevel);
         }
-
         return result;
     }
 

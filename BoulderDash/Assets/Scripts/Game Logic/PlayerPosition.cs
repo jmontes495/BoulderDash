@@ -22,6 +22,9 @@ public class PlayerPosition : MonoBehaviour
 
     private void Update()
     {
+        if (!GameController.Instance.GameInProgress)
+            return;
+
         if (Input.GetKeyUp(KeyCode.UpArrow))
             ManageInput(Direction.Up);
 
