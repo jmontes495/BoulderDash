@@ -15,7 +15,7 @@ public class UICell : MonoBehaviour
                 break;
 
             case CellKind.Brick:
-                image.color = Color.red;
+                image.color = Color.yellow;
                 break;
 
             case CellKind.Player:
@@ -30,8 +30,12 @@ public class UICell : MonoBehaviour
                 image.color = Color.gray;
                 break;
 
+            case CellKind.Boulder:
+                image.color = Color.blue;
+                break;
+
             default:
-                image.color = Color.green;
+                image.color = Color.red;
                 break;
         }
     }

@@ -12,6 +12,7 @@ public class LevelRenderer : MonoBehaviour
 
     private int rowRendering = 0;
     private int columnRendering = 0;
+    private int renderLimit = 1;
 
     private void Start()
     {
@@ -44,17 +45,23 @@ public class LevelRenderer : MonoBehaviour
         switch(direction)
         {
             case Direction.Right:
-                if (newX > columnLimit - 1)
-                    columnRendering = 1;
-                else
+                if (columnRendering < columnLimit + renderLimit)
                     columnRendering++;
                 break;
 
             case Direction.Left:
-                if (newX < 1)
-                    columnRendering = columnLimit - 1;
-                else
+                if (columnRendering > -renderLimit)
                     columnRendering--;
+                break;
+
+            case Direction.Down:
+                if (rowRendering < rowLimit + renderLimit)
+                    rowRendering++;
+                break;
+
+            case Direction.Up:
+                if (rowRendering > -renderLimit)
+                    rowRendering--;
                 break;
                 
         }
