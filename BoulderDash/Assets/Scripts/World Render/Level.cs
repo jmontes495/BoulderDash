@@ -13,16 +13,19 @@ public class Level : MonoBehaviour
     [SerializeField] private Vector2Int exitPosition;
 
     private Cell[,] board;
+    private List<Boulder> boulders;
     
     public void LoadLevel()
     {
         board = new Cell[rows, columns];
+        boulders = new List<Boulder>();
 
         foreach (Vector2Int boulderPos in boulderPositions)
         {
             int x = boulderPos.x >= rows ? rows - 1 : boulderPos.x;
             int y = boulderPos.y >= columns ? columns - 1 : boulderPos.y;
             board[x, y] = new Cell(CellKind.Boulder);
+            boulders.Add(new Boulder(boulderPos));
         }
 
         foreach (Vector2Int brickPos in brickPosition)
@@ -78,8 +81,8 @@ public class Level : MonoBehaviour
         board[x, y].SetCellKind(cell);
     }
 
-    public List<Vector2Int> GetBoulderPositions()
+    public List<Boulder> GetBoulders()
     {
-        return boulderPositions;
+        return boulders;
     }
 }

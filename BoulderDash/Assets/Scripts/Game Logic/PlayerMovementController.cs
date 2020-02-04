@@ -21,6 +21,7 @@ public class PlayerMovementController
             case CellKind.Boulder:
                 if (direction == Direction.Left && GameController.Instance.GetCellByPosition(newX, newY - 1) == CellKind.Empty)
                 {
+                    GameController.Instance.PushBoulder(newX, newY, newX, newY - 1);
                     GameController.Instance.ChangeCell(newX, newY - 1, CellKind.Boulder);
                     GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
                     GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);
@@ -28,6 +29,7 @@ public class PlayerMovementController
                 }
                 else if (direction == Direction.Right && GameController.Instance.GetCellByPosition(newX, newY + 1) == CellKind.Empty)
                 {
+                    GameController.Instance.PushBoulder(newX, newY, newX, newY + 1);
                     GameController.Instance.ChangeCell(newX, newY + 1, CellKind.Boulder);
                     GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
                     GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);

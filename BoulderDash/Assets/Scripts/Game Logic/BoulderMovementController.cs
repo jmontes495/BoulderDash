@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class BoulderMovementController
 {
+    public void PushBoulder(int oldX, int oldY, int newX, int newY)
+    {
+        foreach(Boulder boulder in GameController.Instance.GetBoulders())
+        {
+            if(boulder.GetPosition().x == oldX && boulder.GetPosition().y == oldY)
+            {
+                boulder.SetPosition(new Vector2Int(newX, newY));
+                break;
+            }
+        }
+    }
+
     public Direction TryToDropBoulder(int x, int y, Vector2Int fallingStart)
     {
         Direction result = Direction.None;

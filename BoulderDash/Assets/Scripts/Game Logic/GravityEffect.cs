@@ -4,29 +4,12 @@ using UnityEngine;
 
 public class GravityEffect : MonoBehaviour
 {
-    private List<Boulder> boulders;
     float lastTimeChecked;
     [SerializeField]
     private float fallDelay = 1f;
 
-    private void Start()
-    {
-        Initialize(GameController.Instance.GetBoulderPositions());    
-    }
-
-    public void Initialize(List<Vector2Int> boulderPositions)
-    {
-        boulders = new List<Boulder>();
-
-        foreach(Vector2Int boulderPos in boulderPositions)
-            boulders.Add(new Boulder(boulderPos));
-    }
-
     private void FixedUpdate()
     {
-        if (boulders == null)
-            return;
-
         if (!GameController.Instance.GameInProgress)
             return;
 
@@ -36,7 +19,7 @@ public class GravityEffect : MonoBehaviour
             return;
 
         lastTimeChecked = 0;
-        foreach (Boulder boulder in boulders)
+        foreach (Boulder boulder in GameController.Instance.GetBoulders())
         {
             Vector2Int position = boulder.GetPosition();
             Direction directionMayFall = GameController.Instance.TryToDropBoulder(position.x, position.y, boulder.GetInitialPosition());

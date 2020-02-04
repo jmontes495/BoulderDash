@@ -72,8 +72,13 @@ public class GameController : MonoBehaviour
         return result;
     }
 
-    public List<Vector2Int> GetBoulderPositions()
+    public void PushBoulder(int oldX, int oldY, int newX, int newY)
     {
-        return currentLevel.GetBoulderPositions();
+        boulderMovementController.PushBoulder(oldX, oldY, newX, newY);
+    }
+
+    public List<Boulder> GetBoulders()
+    {
+        return currentLevel.GetBoulders();
     }
 }
