@@ -40,33 +40,29 @@ public class LevelRenderer : MonoBehaviour
 
     public void ChangeRenderingReference(int newY, int newX, Direction direction)
     {
-        //rowRendering = newY;
-        //columnRendering = newX;
         switch(direction)
         {
             case Direction.Right:
-                if (columnRendering < columnLimit + renderLimit)
+                if (columnRendering < columnLimit + renderLimit && newX - columnRendering > columnLimit - 2)
                     columnRendering++;
                 break;
 
             case Direction.Left:
-                if (columnRendering > -renderLimit)
+                if (columnRendering > -renderLimit && newX - columnRendering <= 0)
                     columnRendering--;
                 break;
 
             case Direction.Down:
-                if (rowRendering < rowLimit + renderLimit)
+                if (rowRendering < rowLimit + renderLimit && newY - rowRendering > rowLimit - 2)
                     rowRendering++;
                 break;
 
             case Direction.Up:
-                if (rowRendering > -renderLimit)
+                if (rowRendering > -renderLimit && newY - rowRendering <= 0)
                     rowRendering--;
                 break;
                 
         }
-        //rowRendering = newY;
-        //columnRendering = newX;
 
     }
 
