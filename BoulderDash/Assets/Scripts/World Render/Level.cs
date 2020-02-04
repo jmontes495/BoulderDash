@@ -6,6 +6,7 @@ public class Level : MonoBehaviour
 {
     [SerializeField] private int rows;
     [SerializeField] private int columns;
+    [SerializeField] private int gemsRequired;
     [SerializeField] private List<Vector2Int> boulderPositions;
     [SerializeField] private List<Vector2Int> brickPosition;
     [SerializeField] private List<Vector2Int> gemsPosition;
@@ -84,5 +85,10 @@ public class Level : MonoBehaviour
     public List<Boulder> GetBoulders()
     {
         return boulders;
+    }
+
+    public int GetRequiredGems()
+    {
+        return gemsRequired;
     }
 }

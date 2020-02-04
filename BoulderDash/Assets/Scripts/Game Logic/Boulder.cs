@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boulder : MonoBehaviour
+public class Boulder
 {
     private Vector2Int position;
     private Vector2Int initialPosition;

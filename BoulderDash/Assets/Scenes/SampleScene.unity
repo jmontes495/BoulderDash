@@ -429,6 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 8
   columns: 16
+  gemsRequired: 2
   boulderPositions:
   - {x: 2, y: 3}
   - {x: 2, y: 4}
@@ -445,6 +446,8 @@ MonoBehaviour:
   - {x: 0, y: 7}
   gemsPosition:
   - {x: 4, y: 4}
+  - {x: 2, y: 8}
+  - {x: 2, y: 10}
   playerInitialPosition: {x: 1, y: 1}
   exitPosition: {x: 7, y: 7}
 --- !u!114 &1345307133

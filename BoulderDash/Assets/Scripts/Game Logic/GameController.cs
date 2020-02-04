@@ -12,8 +12,21 @@ public class GameController : MonoBehaviour
         set { }
     }
 
+    [SerializeField]
+    private LevelRenderer levelRenderer;
+    [SerializeField]
+    private Level currentLevel;
+
     private PlayerMovementController playerMovementController;
     private BoulderMovementController boulderMovementController;
+
+    private bool gameInProgress;
+    public bool GameInProgress
+    {
+        get { return gameInProgress; }
+        set { gameInProgress = value; }
+    }
+    private int gemsCollected;
 
     private void Awake()
     {
@@ -27,18 +40,6 @@ public class GameController : MonoBehaviour
         }
         else
             DestroyImmediate(this);
-    }
-
-    [SerializeField]
-    protected LevelRenderer levelRenderer;
-    [SerializeField]
-    protected Level currentLevel;
-
-    protected bool gameInProgress;
-    public bool GameInProgress
-    {
-        get { return gameInProgress; }
-        set { gameInProgress = value; }
     }
 
     public CellKind GetCellByPosition(int newX, int newY)
@@ -80,5 +81,20 @@ public class GameController : MonoBehaviour
     public List<Boulder> GetBoulders()
     {
         return currentLevel.GetBoulders();
+    }
+
+    public void IncreaseGems()
+    {
+        gemsCollected++;
+    }
+
+    public bool ExitAvailable
+    {
+        get { return gemsCollected >= currentLevel.GetRequiredGems(); }
+    }
+
+    public void PlayerReachedExit()
+    {
+        gameInProgress = false;
     }
 }

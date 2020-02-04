@@ -13,9 +13,14 @@ public class PlayerMovementController
         {
             case CellKind.Dirt:
             case CellKind.Empty:
+                GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
+                GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);
+                result = true;
+                break;
             case CellKind.Gem:
                 GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
                 GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);
+                GameController.Instance.IncreaseGems();
                 result = true;
                 break;
             case CellKind.Boulder:
@@ -33,6 +38,15 @@ public class PlayerMovementController
                     GameController.Instance.ChangeCell(newX, newY + 1, CellKind.Boulder);
                     GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
                     GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);
+                    result = true;
+                }
+                break;
+            case CellKind.Exit:
+                if(GameController.Instance.ExitAvailable)
+                {
+                    GameController.Instance.ChangeCell(newX, newY, CellKind.Player);
+                    GameController.Instance.ChangeCell(lastX, lastY, CellKind.Empty);
+                    GameController.Instance.PlayerReachedExit();
                     result = true;
                 }
                 break;
