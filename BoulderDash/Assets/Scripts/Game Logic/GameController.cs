@@ -55,4 +55,42 @@ public class GameController : MonoBehaviour
 
         return result;
     }
+
+    public Direction TryToDropBoulder(int x, int y)
+    {
+        Direction result = Direction.None;
+        if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Empty)
+        {
+            currentLevel.ChangeCell(x, y, CellKind.Empty);
+            currentLevel.ChangeCell(x + 1, y, CellKind.Boulder);
+            result = Direction.Down;
+        }
+        else if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Brick || currentLevel.GetCellByPosition(x + 1, y) == CellKind.Boulder)
+        {
+            if (currentLevel.GetCellByPosition(x, y + 1) == CellKind.Empty)
+            {
+                currentLevel.ChangeCell(x, y, CellKind.Empty);
+                currentLevel.ChangeCell(x, y + 1, CellKind.Boulder);
+                result = Direction.Right;
+            }
+            else if (currentLevel.GetCellByPosition(x, y - 1) == CellKind.Empty)
+            {
+                currentLevel.ChangeCell(x, y, CellKind.Empty);
+                currentLevel.ChangeCell(x, y - 1, CellKind.Boulder);
+                result = Direction.Left;
+            }
+        }
+
+        if (result != Direction.None)
+        {
+            levelRenderer.RenderLevel(currentLevel);
+        }
+
+        return result;
+    }
+
+    public List<Vector2Int> GetBoulderPositions()
+    {
+        return currentLevel.GetBoulderPositions();
+    }
 }

@@ -21,16 +21,19 @@ public class LevelRenderer : MonoBehaviour
 
     private void CreateCells()
     {
-        board = new UICell[rowLimit, columnLimit];
-
-        for (int i = 0; i < rowLimit; i++)
+        if (board == null)
         {
-            for (int j = 0; j < columnLimit; j++)
+            board = new UICell[rowLimit, columnLimit];
+
+            for (int i = 0; i < rowLimit; i++)
             {
-                board[i,j] = Instantiate(cellPrefab);
-                board[i, j].gameObject.transform.SetParent(boardParent);
+                for (int j = 0; j < columnLimit; j++)
+                {
+                    board[i, j] = Instantiate(cellPrefab);
+                    board[i, j].gameObject.transform.SetParent(boardParent);
+                }
+
             }
-                
         }
 
         Level level = GetComponent<Level>();

@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
     [SerializeField] private Vector2Int exitPosition;
 
     private Cell[,] board;
-
+    
     public void LoadLevel()
     {
         board = new Cell[rows, columns];
@@ -68,5 +68,10 @@ public class Level : MonoBehaviour
             return;
         
         board[x, y].SetCellKind(cell);
+    }
+
+    public List<Vector2Int> GetBoulderPositions()
+    {
+        return boulderPositions;
     }
 }
