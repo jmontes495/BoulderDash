@@ -38,9 +38,26 @@ public class GameController : MonoBehaviour
         {
             case CellKind.Dirt:
             case CellKind.Empty:
+            case CellKind.Gem:
                 currentLevel.ChangeCell(newX, newY, CellKind.Player);
                 currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
                 result = true;
+                break;
+            case CellKind.Boulder:
+                if (direction == Direction.Left && currentLevel.GetCellByPosition(newX, newY - 1) == CellKind.Empty)
+                {
+                    currentLevel.ChangeCell(newX, newY - 1, CellKind.Boulder);
+                    currentLevel.ChangeCell(newX, newY, CellKind.Player);
+                    currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
+                    result = true;
+                }
+                else if (direction == Direction.Right && currentLevel.GetCellByPosition(newX, newY + 1) == CellKind.Empty)
+                {
+                    currentLevel.ChangeCell(newX, newY + 1, CellKind.Boulder);
+                    currentLevel.ChangeCell(newX, newY, CellKind.Player);
+                    currentLevel.ChangeCell(lastX, lastY, CellKind.Empty);
+                    result = true;
+                }
                 break;
             default:
                 result = false;
@@ -56,7 +73,7 @@ public class GameController : MonoBehaviour
         return result;
     }
 
-    public Direction TryToDropBoulder(int x, int y)
+    public Direction TryToDropBoulder(int x, int y, Vector2Int fallingStart)
     {
         Direction result = Direction.None;
         if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Empty)
@@ -65,15 +82,20 @@ public class GameController : MonoBehaviour
             currentLevel.ChangeCell(x + 1, y, CellKind.Boulder);
             result = Direction.Down;
         }
+        else if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Player && fallingStart.x != -1)
+        {
+            result = Direction.None;
+            Debug.LogError("You Died!");
+        }
         else if (currentLevel.GetCellByPosition(x + 1, y) == CellKind.Brick || currentLevel.GetCellByPosition(x + 1, y) == CellKind.Boulder)
         {
-            if (currentLevel.GetCellByPosition(x, y + 1) == CellKind.Empty)
+            if (currentLevel.GetCellByPosition(x, y + 1) == CellKind.Empty && currentLevel.GetCellByPosition(x + 1, y + 1) == CellKind.Empty)
             {
                 currentLevel.ChangeCell(x, y, CellKind.Empty);
                 currentLevel.ChangeCell(x, y + 1, CellKind.Boulder);
                 result = Direction.Right;
             }
-            else if (currentLevel.GetCellByPosition(x, y - 1) == CellKind.Empty)
+            else if (currentLevel.GetCellByPosition(x, y - 1) == CellKind.Empty && currentLevel.GetCellByPosition(x + 1, y - 1) == CellKind.Empty)
             {
                 currentLevel.ChangeCell(x, y, CellKind.Empty);
                 currentLevel.ChangeCell(x, y - 1, CellKind.Boulder);

@@ -22,6 +22,10 @@ public class UICell : MonoBehaviour
                 image.color = Color.cyan;
                 break;
 
+            case CellKind.Gem:
+                image.color = Color.white;
+                break;
+
             case CellKind.Exit:
                 image.color = Color.magenta;
                 break;

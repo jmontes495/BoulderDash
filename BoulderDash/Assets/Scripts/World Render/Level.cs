@@ -8,6 +8,7 @@ public class Level : MonoBehaviour
     [SerializeField] private int columns;
     [SerializeField] private List<Vector2Int> boulderPositions;
     [SerializeField] private List<Vector2Int> brickPosition;
+    [SerializeField] private List<Vector2Int> gemsPosition;
     [SerializeField] private Vector2Int playerInitialPosition;
     [SerializeField] private Vector2Int exitPosition;
 
@@ -29,6 +30,13 @@ public class Level : MonoBehaviour
             int x = brickPos.x >= rows ? rows - 1 : brickPos.x;
             int y = brickPos.y >= columns ? columns - 1 : brickPos.y;
             board[x, y] = new Cell(CellKind.Brick);
+        }
+
+        foreach (Vector2Int gemPos in gemsPosition)
+        {
+            int x = gemPos.x >= rows ? rows - 1 : gemPos.x;
+            int y = gemPos.y >= columns ? columns - 1 : gemPos.y;
+            board[x, y] = new Cell(CellKind.Gem);
         }
 
         board[playerInitialPosition.x >= rows ? rows - 1 : playerInitialPosition.x, playerInitialPosition.y >= columns ? columns - 1 : playerInitialPosition.y] = new Cell(CellKind.Player);

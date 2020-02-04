@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedcef80c5ee23b43b8a84553c354e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fallDelay: 0.3
 --- !u!1 &1345307128
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +443,8 @@ MonoBehaviour:
   - {x: 0, y: 5}
   - {x: 0, y: 6}
   - {x: 0, y: 7}
+  gemsPosition:
+  - {x: 4, y: 4}
   playerInitialPosition: {x: 1, y: 1}
   exitPosition: {x: 7, y: 7}
 --- !u!114 &1345307133

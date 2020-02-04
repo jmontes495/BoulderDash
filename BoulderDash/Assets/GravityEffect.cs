@@ -6,7 +6,8 @@ public class GravityEffect : MonoBehaviour
 {
     private List<Boulder> boulders;
     float lastTimeChecked;
-    private float fallSpeed = 1f;
+    [SerializeField]
+    private float fallDelay = 1f;
 
     private void Start()
     {
@@ -28,17 +29,20 @@ public class GravityEffect : MonoBehaviour
 
         lastTimeChecked += Time.fixedDeltaTime;
 
-        if (lastTimeChecked <= fallSpeed)
+        if (lastTimeChecked <= fallDelay)
             return;
 
         lastTimeChecked = 0;
         foreach (Boulder boulder in boulders)
         {
             Vector2Int position = boulder.GetPosition();
-            Direction directionMayFall = GameController.Instance.TryToDropBoulder(position.x, position.y);
+            Direction directionMayFall = GameController.Instance.TryToDropBoulder(position.x, position.y, boulder.GetInitialPosition());
 
             if (directionMayFall != Direction.None)
             {
+                if (boulder.GetInitialPosition().x == -1)
+                    boulder.SetInitialPosition(position);
+
                 switch (directionMayFall)
                 {
                     case Direction.Down:
@@ -53,6 +57,8 @@ public class GravityEffect : MonoBehaviour
                 }
                 boulder.SetPosition(position);
             }
+            else
+                boulder.SetInitialPosition(new Vector2Int(-1, -1));
         }
     }
 }
