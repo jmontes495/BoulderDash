@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private LevelRenderer levelRenderer;
     [SerializeField]
-    private Level currentLevel;
+    private LevelConfig[] levels;
 
     private PlayerMovementController playerMovementController;
     private BoulderMovementController boulderMovementController;
@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
         set { gameInProgress = value; }
     }
     private int gemsCollected;
+    private LevelConfig currentLevel;
+    private int levelIndex = 0;
 
     private void Awake()
     {
@@ -40,6 +42,23 @@ public class GameController : MonoBehaviour
         }
         else
             DestroyImmediate(this);
+    }
+
+    private void Start()
+    {
+        LoadCurrentLevel();
+    }
+
+    private void LoadCurrentLevel()
+    {
+        if (levelIndex >= levels.Length)
+            return;
+
+        currentLevel = levels[levelIndex];
+        currentLevel.LoadLevel();
+        levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
+        if (GetComponent<PlayerPosition>() != null)
+            GetComponent<PlayerPosition>().InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
     }
 
     public CellKind GetCellByPosition(int newX, int newY)
@@ -80,6 +99,9 @@ public class GameController : MonoBehaviour
 
     public List<Boulder> GetBoulders()
     {
+        if (currentLevel == null)
+            return null;
+
         return currentLevel.GetBoulders();
     }
 

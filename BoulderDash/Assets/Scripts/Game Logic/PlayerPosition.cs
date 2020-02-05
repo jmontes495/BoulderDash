@@ -7,12 +7,9 @@ public class PlayerPosition : MonoBehaviour
     private int xPosition;
     private int yPosition;
 
-    private bool inGame;
-
-    private void Start()
-    {
-        InitializePosition(1, 1);
-    }
+    float lastTimeChecked;
+    [SerializeField]
+    private float playerSpeed = 1f;
 
     public void InitializePosition(int x, int y)
     {
@@ -20,23 +17,36 @@ public class PlayerPosition : MonoBehaviour
         yPosition = y;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!GameController.Instance.GameInProgress)
             return;
 
-        if (Input.GetKeyUp(KeyCode.UpArrow))
+        lastTimeChecked += Time.fixedDeltaTime;
+
+        if (lastTimeChecked <= 1/playerSpeed)
+            return;
+        
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
             ManageInput(Direction.Up);
-
-        if (Input.GetKeyUp(KeyCode.DownArrow))
+            lastTimeChecked = 0;
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
             ManageInput(Direction.Down);
-
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+            lastTimeChecked = 0;
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
             ManageInput(Direction.Left);
-
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+            lastTimeChecked = 0;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
             ManageInput(Direction.Right);
-            
+            lastTimeChecked = 0;
+        }   
     }
 
     private void ManageInput(Direction direction)

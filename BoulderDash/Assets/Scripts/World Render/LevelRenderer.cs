@@ -12,12 +12,7 @@ public class LevelRenderer : MonoBehaviour
 
     private int rowRendering = 0;
     private int columnRendering = 0;
-    private int renderLimit = 1;
-
-    private void Start()
-    {
-        CreateCells();
-    }
+    private int renderLimit = 5;
 
     private void CreateCells()
     {
@@ -35,8 +30,15 @@ public class LevelRenderer : MonoBehaviour
 
             }
         }
+    }
 
-        Level level = GetComponent<Level>();
+    public void LoadLevel(LevelConfig level, int renderX, int renderY)
+    {
+        if (board == null)
+            CreateCells();
+
+        rowRendering = renderX;
+        columnRendering = renderY;
         level.LoadLevel();
         RenderLevel(level);
     }
@@ -69,7 +71,7 @@ public class LevelRenderer : MonoBehaviour
 
     }
 
-    public void RenderLevel(Level level)
+    public void RenderLevel(LevelConfig level)
     {
         int rows = level.GetRows();
         int columns = level.GetColumns();

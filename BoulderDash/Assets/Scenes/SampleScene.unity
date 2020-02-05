@@ -312,7 +312,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelRenderer: {fileID: 1345307133}
-  currentLevel: {fileID: 1345307132}
+  levels:
+  - {fileID: 11400000, guid: 333eea8715d279d49bfbd1407be5f8bc, type: 2}
 --- !u!114 &1075322918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981603b5cfabc4a86af2c66f798aba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeed: 10
 --- !u!114 &1075322919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +399,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 110, y: 110}
+  m_CellSize: {x: 55, y: 55}
   m_Spacing: {x: 2, y: 2}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -465,8 +467,8 @@ MonoBehaviour:
   boardParent: {fileID: 1345307129}
   cellPrefab: {fileID: 2735081855447819730, guid: db16c9458975e4c9199334515c2415bb,
     type: 3}
-  rowLimit: 4
-  columnLimit: 8
+  rowLimit: 8
+  columnLimit: 16
 --- !u!1 &1567505751
 GameObject:
   m_ObjectHideFlags: 0

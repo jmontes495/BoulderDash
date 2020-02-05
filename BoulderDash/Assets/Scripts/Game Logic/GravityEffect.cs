@@ -13,6 +13,9 @@ public class GravityEffect : MonoBehaviour
         if (!GameController.Instance.GameInProgress)
             return;
 
+        if (GameController.Instance.GetBoulders() == null)
+            return;
+
         lastTimeChecked += Time.fixedDeltaTime;
 
         if (lastTimeChecked <= fallDelay)
