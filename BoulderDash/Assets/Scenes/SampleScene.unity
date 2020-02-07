@@ -1472,6 +1472,7 @@ GameObject:
   - component: {fileID: 1075322918}
   - component: {fileID: 1075322919}
   - component: {fileID: 1075322920}
+  - component: {fileID: 1075322921}
   m_Layer: 5
   m_Name: Game
   m_TagString: Untagged
@@ -1515,6 +1516,7 @@ MonoBehaviour:
   levelRenderer: {fileID: 1345307133}
   levels:
   - {fileID: 11400000, guid: 333eea8715d279d49bfbd1407be5f8bc, type: 2}
+  gameStats: {fileID: 1075322921}
 --- !u!114 &1075322918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1555,6 +1557,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intro: {fileID: 874015645}
   board: {fileID: 1345307128}
+--- !u!114 &1075322921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075322915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706f576107211a54d8c94db1509fa883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1115228359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2072,6 +2086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765403209}
+  - component: {fileID: 1765403210}
   m_Layer: 5
   m_Name: Top Bar
   m_TagString: Untagged
@@ -2101,6 +2116,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1765403210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765403208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bcaeef80a1b7b048a353c4f9246da7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 297178752}
+  gemsCounter: {fileID: 311946348}
+  score: {fileID: 439064953}
 --- !u!1 &1765442638
 GameObject:
   m_ObjectHideFlags: 0

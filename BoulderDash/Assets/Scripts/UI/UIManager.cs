@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && !GameController.Instance.GameInProgress)
         {
             GameController.Instance.GameInProgress = true;
             intro.gameObject.SetActive(false);
