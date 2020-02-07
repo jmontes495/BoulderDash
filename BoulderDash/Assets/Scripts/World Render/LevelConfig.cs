@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LevelConfig")]
 public class LevelConfig : ScriptableObject
 {
     [SerializeField] private int rows;
@@ -13,6 +12,7 @@ public class LevelConfig : ScriptableObject
     [SerializeField] private List<Vector2Int> gemsPosition;
     [SerializeField] private Vector2Int playerInitialPosition;
     [SerializeField] private Vector2Int exitPosition;
+    [SerializeField] private int seconds;
 
     private Cell[,] board;
     private List<Boulder> boulders;
@@ -96,5 +96,10 @@ public class LevelConfig : ScriptableObject
     public int GetRequiredGems()
     {
         return gemsRequired;
+    }
+
+    public int GetSecondsToComplete()
+    {
+        return seconds;
     }
 }

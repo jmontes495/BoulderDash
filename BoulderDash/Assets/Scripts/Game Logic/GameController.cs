@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
             instance = this;
             playerMovementController = new PlayerMovementController();
             boulderMovementController = new BoulderMovementController();
-            gameInProgress = true;
+            gameInProgress = false;
             DontDestroyOnLoad(gameObject);
         }
         else

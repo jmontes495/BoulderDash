@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.9902086, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -87,3 +87,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b609f3d5f6554a308ac61b1b55cad01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteConfig: {fileID: 11400000, guid: d3829678a706620438965d9226068312, type: 2}

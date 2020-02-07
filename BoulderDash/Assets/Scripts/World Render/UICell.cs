@@ -5,42 +5,52 @@ using UnityEngine.UI;
 
 public class UICell : MonoBehaviour
 {
+    [SerializeField]
+    private SpriteConfig spriteConfig;
+
+    private Image image;
+    
     public void SetCell(CellKind cellKind)
     {
-        Image image = GetComponent<Image>();
-        switch(cellKind)
+        if(image == null)
+            image = GetComponent<Image>();
+
+        image.color = Color.white;
+
+        switch (cellKind)
         {
             case CellKind.Empty:
+                image.sprite = null;
                 image.color = Color.black;
                 break;
 
-            case CellKind.Brick:
-                image.color = Color.yellow;
-                break;
-
             case CellKind.Player:
-                image.color = Color.cyan;
+                image.sprite = spriteConfig.Character1;
                 break;
 
             case CellKind.Gem:
-                image.color = Color.white;
+                image.sprite = spriteConfig.Gem[0];
                 break;
 
             case CellKind.Exit:
-                image.color = Color.magenta;
+                image.sprite = spriteConfig.Exit[0];
                 break;
 
             case CellKind.Dirt:
-                image.color = Color.gray;
+                image.sprite = spriteConfig.Dirt;
                 break;
 
             case CellKind.Boulder:
-                image.color = Color.blue;
+                image.sprite = spriteConfig.Boulder;
                 break;
 
+            case CellKind.Brick:
+            case CellKind.OutOfBounds:
             default:
-                image.color = Color.red;
+                image.sprite = spriteConfig.Brick;
                 break;
         }
     }
+
+
 }

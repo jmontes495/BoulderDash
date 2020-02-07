@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7558a8fc354ce0c418aca4cc4b87a8b6, type: 3}
+  m_Name: Sprite Config
+  m_EditorClassIdentifier: 
+  character1: {fileID: 21300000, guid: 7d8d9ec4b39e6794bae518ab59aabf14, type: 3}
+  character2: {fileID: 21300000, guid: b1faed8cf8d2e77498bc6ba17ab4a37c, type: 3}
+  characterDead: {fileID: 21300000, guid: 465d9b4bcab35674d8305aa999b7700a, type: 3}
+  exit:
+  - {fileID: 21300000, guid: 48c700740ceaa6046b08688a8b4d714a, type: 3}
+  - {fileID: 21300000, guid: b279e8e3ad4420c4f855d8e243000cb7, type: 3}
+  - {fileID: 21300000, guid: fc13c7991f905fb439ad6c1c19c8eca9, type: 3}
+  - {fileID: 21300000, guid: 5f9803984a54ee1469881673cc2f4690, type: 3}
+  boulder: {fileID: 21300000, guid: 3836fcb2f7c3a7f4e93d642c8c7720d1, type: 3}
+  dirt: {fileID: 21300000, guid: a227b65ea39a3114a9dc66f2932871bf, type: 3}
+  brick: {fileID: 21300000, guid: eee921cb36f6e8845ab0227ae53af550, type: 3}
+  gem:
+  - {fileID: 21300000, guid: 51e61f4bab141d1458d0907540cd4473, type: 3}
+  - {fileID: 21300000, guid: cf34d0c4ca6a58441ac30dedb105e0d3, type: 3}
