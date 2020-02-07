@@ -7,8 +7,6 @@ public class Boulder
     private Vector2Int position;
     private Vector2Int initialPosition;
 
-    private float fallSpeed = 5f;
-
     public Boulder(Vector2Int pos)
     {
         position = pos;

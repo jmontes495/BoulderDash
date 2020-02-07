@@ -31,6 +31,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public bool LevelsFinished
+    {
+        get { return levelIndex >= levels.Length; }
+    }
+
     public GameStats GameStats
     {
         get { return gameStats; }
@@ -50,14 +55,9 @@ public class GameController : MonoBehaviour
         }
         else
             DestroyImmediate(this);
-    }
+    }    
 
-    private void Start()
-    {
-        LoadCurrentLevel();
-    }
-
-    private void LoadCurrentLevel()
+    public void LoadNextLevel()
     {
         if (levelIndex >= levels.Length)
             return;
@@ -69,6 +69,9 @@ public class GameController : MonoBehaviour
         levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
         if (GetComponent<PlayerPosition>() != null)
             GetComponent<PlayerPosition>().InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
+
+        GameInProgress = true;
+        levelIndex++;
     }
 
     public CellKind GetCellByPosition(int newX, int newY)
@@ -128,5 +131,6 @@ public class GameController : MonoBehaviour
     public void PlayerReachedExit()
     {
         gameInProgress = false;
+        gameStats.PlayerFinishedLevel();
     }
 }

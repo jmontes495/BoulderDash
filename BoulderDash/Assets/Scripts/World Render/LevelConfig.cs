@@ -44,6 +44,9 @@ public class LevelConfig : ScriptableObject
             board[x, y] = new Cell(CellKind.Gem);
         }
 
+        if (gemsRequired < gemsPosition.Count)
+            gemsRequired = gemsPosition.Count;
+
         board[playerInitialPosition.x >= rows ? rows - 1 : playerInitialPosition.x, playerInitialPosition.y >= columns ? columns - 1 : playerInitialPosition.y] = new Cell(CellKind.Player);
         board[exitPosition.x >= rows ? rows - 1 : exitPosition.x, exitPosition.y >= columns ? columns - 1 : exitPosition.y] = new Cell(CellKind.Exit);
 

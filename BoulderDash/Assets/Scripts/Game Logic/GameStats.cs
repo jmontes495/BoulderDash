@@ -8,14 +8,18 @@ public class GameStats : MonoBehaviour
     public static event StatsChange GemsIncreased;
     public static event StatsChange LifeLost;
     public static event StatsChange TimeUpdated;
+    public static event StatsChange LevelCompleted;
 
     public static int gemValue = 100;
+    public static int extraSecondValue = 100;
+
     private int lifes;
     private int gemsNeeded;
     private int gemsCollected;
     private int score;
     private float timeRemaining;
     private bool timeIsRUnning;
+    private bool levelFinished;
 
     public int TimeRemaining
     {
@@ -37,12 +41,16 @@ public class GameStats : MonoBehaviour
         get { return gemsCollected; } 
     }
 
+    public bool LevelFinished
+    {
+        get { return levelFinished; }
+    }
+
     public void Initialize(int playerLifes, int gemsNeededForLevel)
     {
         lifes = playerLifes;
         gemsNeeded = gemsNeededForLevel;
         gemsCollected = 0;
-        score = 0;
         GemsIncreased();
     }
 
@@ -72,20 +80,43 @@ public class GameStats : MonoBehaviour
         timeIsRUnning = true;
     }
 
+    public void PlayerFinishedLevel()
+    {
+        levelFinished = true;
+        score += TimeRemaining * extraSecondValue;
+        timeRemaining = 0;
+        timeIsRUnning = false;
+        GemsIncreased();
+        LevelCompleted();
+    }
+
     private void FixedUpdate()
     {
         if (!timeIsRUnning)
             return;
 
-        timeRemaining -= Time.fixedDeltaTime;
+        if (!GameController.Instance.GameInProgress)
+        {
+            timeIsRUnning = false;
+            return;
+        }
 
+        timeRemaining -= Time.fixedDeltaTime;
         TimeUpdated();
-        Debug.LogError(timeRemaining);
 
         if (timeRemaining <= 0)
         {
             timeIsRUnning = false;
             GameController.Instance.GameInProgress = false;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.N))
+        {
+            GameController.Instance.GameInProgress = false;
+            PlayerFinishedLevel();
         }
     }
 
