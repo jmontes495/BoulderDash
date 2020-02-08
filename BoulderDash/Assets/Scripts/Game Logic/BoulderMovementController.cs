@@ -28,6 +28,7 @@ public class BoulderMovementController
         else if (GameController.Instance.GetCellByPosition(x + 1, y) == CellKind.Player && fallingStart.x != -1)
         {
             result = Direction.None;
+            GameController.Instance.ChangeCell(x + 1, y, CellKind.DeadPlayer);
             GameController.Instance.GameInProgress = false;
         }
         else if (GameController.Instance.GetCellByPosition(x + 1, y) == CellKind.Brick || GameController.Instance.GetCellByPosition(x + 1, y) == CellKind.Boulder)

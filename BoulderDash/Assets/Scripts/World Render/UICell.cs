@@ -32,6 +32,10 @@ public class UICell : MonoBehaviour
                     StartCoroutine(Jump());
                 break;
 
+            case CellKind.DeadPlayer:
+                image.sprite = spriteConfig.CharacterDead;
+                break;
+
             case CellKind.Gem:
                 image.sprite = spriteConfig.Gem[0];
                 break;

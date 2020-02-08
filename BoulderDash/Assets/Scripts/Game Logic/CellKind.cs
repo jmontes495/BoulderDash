@@ -11,5 +11,6 @@ public enum CellKind
     Player,
     Gem,
     Exit,
-    OutOfBounds
+    OutOfBounds,
+    DeadPlayer,
 }

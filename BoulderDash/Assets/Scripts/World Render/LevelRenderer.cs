@@ -39,7 +39,6 @@ public class LevelRenderer : MonoBehaviour
 
         rowRendering = renderX;
         columnRendering = renderY;
-        level.LoadLevel();
         RenderLevel(level);
     }
 

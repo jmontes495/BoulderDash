@@ -5,41 +5,18 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private static GameController instance;
-
-    public static GameController Instance
-    {
-        get { return instance; }
-        set { }
-    }
+    public static GameController Instance { get { return instance; } }
+    private PlayerMovementController playerMovementController;
+    private BoulderMovementController boulderMovementController;
 
     [SerializeField] private LevelRenderer levelRenderer;
     [SerializeField] private LevelConfig[] levels;
     [SerializeField] private GameStats gameStats;
-
-    private PlayerMovementController playerMovementController;
-    private BoulderMovementController boulderMovementController;
+    public GameStats GameStats { get { return gameStats; } }
 
     private bool gameInProgress;
-    public bool GameInProgress
-    {
-        get { return gameInProgress; }
-        set
-        {
-            gameInProgress = value;
-            if (gameInProgress)
-                gameStats.StartTimer();
-        }
-    }
-
-    public bool LevelsFinished
-    {
-        get { return levelIndex >= levels.Length; }
-    }
-
-    public GameStats GameStats
-    {
-        get { return gameStats; }
-    }
+    public bool GameInProgress { get { return gameInProgress; } set { gameInProgress = value; } }
+    public bool LevelsFinished { get { return levelIndex >= levels.Length; } }
     private LevelConfig currentLevel;
     private int levelIndex = 0;
 
@@ -70,8 +47,21 @@ public class GameController : MonoBehaviour
         if (GetComponent<PlayerPosition>() != null)
             GetComponent<PlayerPosition>().InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
 
-        GameInProgress = true;
+        gameInProgress = true;
         levelIndex++;
+    }
+
+    public void ReloadAfterDeath()
+    {
+        if (GetComponent<PlayerPosition>() != null)
+        {
+            PlayerPosition playerPosition = GetComponent<PlayerPosition>();
+            currentLevel.ChangeCell(playerPosition.XPosition, playerPosition.YPosition, CellKind.Empty);
+            currentLevel.ChangeCell(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y, CellKind.Player);
+            playerPosition.InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
+            levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
+        }
+        gameInProgress = true;
     }
 
     public CellKind GetCellByPosition(int newX, int newY)
@@ -97,11 +87,15 @@ public class GameController : MonoBehaviour
 
     public Direction TryToDropBoulder(int x, int y, Vector2Int fallingStart)
     {
+        bool playerDied = gameInProgress;
         Direction result = boulderMovementController.TryToDropBoulder(x, y, fallingStart);
-        if (result != Direction.None)
-        {
+        playerDied = playerDied && !gameInProgress;
+
+        if (result != Direction.None || playerDied)
             levelRenderer.RenderLevel(currentLevel);
-        }
+        if (playerDied)
+            gameStats.LoseLife();
+
         return result;
     }
 

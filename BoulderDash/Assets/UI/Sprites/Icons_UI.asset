@@ -79,6 +79,20 @@ MonoBehaviour:
     unicode: 128522
     pivot: {x: 0.5, y: 0.5}
     sprite: {fileID: 0}
+  - id: 2
+    x: 390.3
+    y: 30
+    width: 178.4
+    height: 128
+    xOffset: -45.1
+    yOffset: 110
+    xAdvance: 171.1
+    scale: 1
+    name: Heart
+    hashCode: 84381802
+    unicode: 128522
+    pivot: {x: 0.5, y: 0.5}
+    sprite: {fileID: 0}
   fallbackSpriteAssets: []
 --- !u!21 &1369835458
 Material:

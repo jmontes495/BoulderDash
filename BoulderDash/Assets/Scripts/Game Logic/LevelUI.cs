@@ -11,6 +11,7 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer;
     [SerializeField] private TextMeshProUGUI gemsCounter;
     [SerializeField] private TextMeshProUGUI score;
+    [SerializeField] private TextMeshProUGUI lifes;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class LevelUI : MonoBehaviour
 
         GameStats.GemsIncreased += UpdateGemsCounter;
         GameStats.TimeUpdated += UpdateTimer;
+        GameStats.LifeLost += UpdateLifeCounter;
     }
 
     public void SetTime(float time)
@@ -49,10 +51,23 @@ public class LevelUI : MonoBehaviour
             score.text = GameController.Instance.GameStats.Score.ToString();
     }
 
+    private void UpdateLifeCounter()
+    {
+        if (lifes != null)
+        {
+            string lifesRemaining = "";
+            for (int i = 0; i < GameController.Instance.GameStats.Lifes; i++)
+                lifesRemaining += "<sprite=2>";
+
+            lifes.text = lifesRemaining;
+        }
+    }
+
     private void OnDestroy()
     {
         GameStats.GemsIncreased -= UpdateGemsCounter;
         GameStats.TimeUpdated -= UpdateTimer;
+        GameStats.LifeLost -= UpdateLifeCounter;
     }
 
     public void ShowElements(bool state)

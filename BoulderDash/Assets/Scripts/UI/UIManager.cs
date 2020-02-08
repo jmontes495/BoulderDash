@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject board;
     [SerializeField] private LevelUI gameVariables;
     [SerializeField] private GameObject endScreen;
+    [SerializeField] private GameObject gameOver;
     [SerializeField] private TextMeshProUGUI finalScore;
 
     [SerializeField]
@@ -23,18 +24,24 @@ public class UIManager : MonoBehaviour
         nextLevel.SetActive(false);
         endScreen.SetActive(false);
         gameVariables.ShowElements(false);
+        gameOver.SetActive(false);
         GameStats.LevelCompleted += ShowNextLevel;
+        GameStats.LifeLost += ShowPlayerDied;
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && !GameController.Instance.GameInProgress && !showingTransition && !GameController.Instance.LevelsFinished)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            GameController.Instance.LoadNextLevel();
-            intro.SetActive(false);
-            nextLevel.SetActive(false);
-            board.SetActive(true);
-            gameVariables.ShowElements(true);
+            if (!GameController.Instance.GameInProgress && !showingTransition && !GameController.Instance.LevelsFinished && GameController.Instance.GameStats.Lifes > 0)
+            {
+                GameController.Instance.LoadNextLevel();
+                intro.SetActive(false);
+                nextLevel.SetActive(false);
+                board.SetActive(true);
+                gameVariables.ShowElements(true);
+                gameOver.SetActive(false);
+            }
         }
     }
 
@@ -44,6 +51,26 @@ public class UIManager : MonoBehaviour
             StartCoroutine(LevelScreen());
         else
             StartCoroutine(EndScreen());
+    }
+
+    private void ShowPlayerDied()
+    {
+        showingTransition = true;
+        StartCoroutine(DeathTransition());
+    }
+
+    private IEnumerator DeathTransition()
+    {
+        yield return new WaitForSeconds(delayBeforeScreen);
+
+        if (GameController.Instance.GameStats.Lifes > 0)
+            GameController.Instance.ReloadAfterDeath();
+        else
+        {
+            gameOver.SetActive(true);
+            board.SetActive(false);
+        }
+        showingTransition = false;
     }
 
     private IEnumerator LevelScreen()

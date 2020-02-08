@@ -6,6 +6,8 @@ public class PlayerPosition : MonoBehaviour
 {
     private int xPosition;
     private int yPosition;
+    public int XPosition { get { return xPosition; } }
+    public int YPosition { get { return yPosition; } }
 
     float lastTimeChecked;
     [SerializeField]

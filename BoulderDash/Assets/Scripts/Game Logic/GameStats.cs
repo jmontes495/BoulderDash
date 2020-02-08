@@ -18,33 +18,14 @@ public class GameStats : MonoBehaviour
     private int gemsCollected;
     private int score;
     private float timeRemaining;
-    private bool timeIsRUnning;
     private bool levelFinished;
 
-    public int TimeRemaining
-    {
-        get { return (int) timeRemaining; }
-    }
-
-    public int Score
-    {
-        get { return score; }
-    }
-
-    public int GemsNeeded
-    {
-        get { return gemsNeeded; }
-    }
-
-    public int GemsCollected
-    {
-        get { return gemsCollected; } 
-    }
-
-    public bool LevelFinished
-    {
-        get { return levelFinished; }
-    }
+    public int Lifes { get { return lifes; } }
+    public int GemsNeeded { get { return gemsNeeded; } }
+    public int GemsCollected { get { return gemsCollected; } }
+    public int Score { get { return score; } }
+    public int TimeRemaining { get { return (int) timeRemaining; } }
+    public bool LevelFinished { get { return levelFinished; } }
 
     public void Initialize(int playerLifes, int gemsNeededForLevel)
     {
@@ -52,6 +33,18 @@ public class GameStats : MonoBehaviour
         gemsNeeded = gemsNeededForLevel;
         gemsCollected = 0;
         GemsIncreased();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!GameController.Instance.GameInProgress)
+            return;
+
+        timeRemaining -= Time.fixedDeltaTime;
+        TimeUpdated();
+
+        if (timeRemaining <= 0)
+            GameController.Instance.GameInProgress = false;
     }
 
     public void IncreaseGems()
@@ -65,9 +58,6 @@ public class GameStats : MonoBehaviour
     {
         lifes--;
         LifeLost();
-        if (lifes == 0)
-            GameController.Instance.GameInProgress = false;
-
     }    
 
     public void SetTime(float time)
@@ -75,49 +65,14 @@ public class GameStats : MonoBehaviour
         timeRemaining = time;
     }
 
-    public void StartTimer()
-    {
-        timeIsRUnning = true;
-    }
-
     public void PlayerFinishedLevel()
     {
         levelFinished = true;
         score += TimeRemaining * extraSecondValue;
         timeRemaining = 0;
-        timeIsRUnning = false;
         GemsIncreased();
         LevelCompleted();
     }
 
-    private void FixedUpdate()
-    {
-        if (!timeIsRUnning)
-            return;
-
-        if (!GameController.Instance.GameInProgress)
-        {
-            timeIsRUnning = false;
-            return;
-        }
-
-        timeRemaining -= Time.fixedDeltaTime;
-        TimeUpdated();
-
-        if (timeRemaining <= 0)
-        {
-            timeIsRUnning = false;
-            GameController.Instance.GameInProgress = false;
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.N))
-        {
-            GameController.Instance.GameInProgress = false;
-            PlayerFinishedLevel();
-        }
-    }
 
 }
