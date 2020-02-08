@@ -3892,6 +3892,7 @@ MonoBehaviour:
     type: 3}
   rowLimit: 8
   columnLimit: 16
+  renderLimit: 3
 --- !u!1 &1432385126
 GameObject:
   m_ObjectHideFlags: 0

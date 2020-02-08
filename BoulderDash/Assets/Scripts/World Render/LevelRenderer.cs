@@ -9,10 +9,12 @@ public class LevelRenderer : MonoBehaviour
     [SerializeField] private UICell[,] board; 
     [SerializeField] private int rowLimit;
     [SerializeField] private int columnLimit;
+    [SerializeField] private int renderLimit = 3;
 
     private int rowRendering = 0;
     private int columnRendering = 0;
-    private int renderLimit = 5;
+    private int realBoardRows = 0;
+    private int realBoardColumns = 0;
 
     private void CreateCells()
     {
@@ -39,30 +41,32 @@ public class LevelRenderer : MonoBehaviour
 
         rowRendering = renderX;
         columnRendering = renderY;
+        realBoardRows = level.GetRows();
+        realBoardColumns = level.GetColumns();
         RenderLevel(level);
     }
 
-    public void ChangeRenderingReference(int newY, int newX, Direction direction)
+    public void ChangeRenderingReference(int newX, int newY, Direction direction)
     {
         switch(direction)
         {
             case Direction.Right:
-                if (columnRendering < columnLimit + renderLimit && newX - columnRendering > columnLimit - 2)
+                if (columnRendering + columnLimit <= realBoardColumns && columnRendering + columnLimit - newY <= renderLimit)
                     columnRendering++;
                 break;
 
             case Direction.Left:
-                if (columnRendering > -renderLimit && newX - columnRendering <= 0)
+                if (columnRendering >= 0 && newY - columnRendering < renderLimit)
                     columnRendering--;
                 break;
 
             case Direction.Down:
-                if (rowRendering < rowLimit + renderLimit && newY - rowRendering > rowLimit - 2)
+                if (rowRendering + rowLimit <= realBoardRows && rowRendering + rowLimit - newX <= renderLimit)
                     rowRendering++;
                 break;
 
             case Direction.Up:
-                if (rowRendering > -renderLimit && newY - rowRendering <= 0)
+                if (rowRendering >= 0 && newX - rowRendering < renderLimit)
                     rowRendering--;
                 break;
                 
@@ -72,18 +76,9 @@ public class LevelRenderer : MonoBehaviour
 
     public void RenderLevel(LevelConfig level)
     {
-        int rows = level.GetRows();
-        int columns = level.GetColumns();
-
-        if (rows >= rowLimit)
-            rows = rowLimit;
-
-        if (columns >= columnLimit)
-            columns = columnLimit;
-
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < rowLimit; i++)
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < columnLimit; j++)
             {
                 board[i, j].SetCell(level.GetCellByPosition(rowRendering + i, columnRendering + j));
             }
