@@ -60,4 +60,4 @@ MonoBehaviour:
   - {x: 7, y: 9}
   playerInitialPosition: {x: 4, y: 4}
   exitPosition: {x: 8, y: 14}
-  seconds: 100
+  seconds: 60

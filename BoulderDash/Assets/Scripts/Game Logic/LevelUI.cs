@@ -21,9 +21,10 @@ public class LevelUI : MonoBehaviour
         if (gemsCounter != null)
             gemsCounter.text = "<sprite=1>0/0";
 
-        GameStats.GemsIncreased += UpdateGemsCounter;
+        GameStats.GemsUpdated += UpdateGemsCounter;
         GameStats.TimeUpdated += UpdateTimer;
-        GameStats.LifeLost += UpdateLifeCounter;
+        GameStats.LifesUpdated += UpdateLifeCounter;
+        GameStats.ValuesInitialized += SetAllValues;
     }
 
     public void SetTime(float time)
@@ -38,8 +39,11 @@ public class LevelUI : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if(timer != null)
-            timer.text = "<sprite=0>" + GameController.Instance.GameStats.TimeRemaining;
+        if (timer != null)
+        {
+            string color = GameController.Instance.GameStats.TimeRemaining > 10 ? "<color=white>" : "<color=red>";
+            timer.text = color + "<sprite=0>" + GameController.Instance.GameStats.TimeRemaining + "</color>";
+        }
     }
 
     private void UpdateGemsCounter()
@@ -63,11 +67,18 @@ public class LevelUI : MonoBehaviour
         }
     }
 
+    private void SetAllValues()
+    {
+        UpdateGemsCounter();
+        UpdateLifeCounter();
+    }
+
     private void OnDestroy()
     {
-        GameStats.GemsIncreased -= UpdateGemsCounter;
+        GameStats.GemsUpdated -= UpdateGemsCounter;
         GameStats.TimeUpdated -= UpdateTimer;
-        GameStats.LifeLost -= UpdateLifeCounter;
+        GameStats.LifesUpdated -= UpdateLifeCounter;
+        GameStats.ValuesInitialized -= SetAllValues;
     }
 
     public void ShowElements(bool state)
@@ -75,5 +86,6 @@ public class LevelUI : MonoBehaviour
         timer.gameObject.SetActive(state);
         score.gameObject.SetActive(state);
         gemsCounter.gameObject.SetActive(state);
+        lifes.gameObject.SetActive(state);
     }
 }

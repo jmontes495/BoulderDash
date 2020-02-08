@@ -3121,6 +3121,7 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: a83f0675db827c6458ae55dc2d62ebec, type: 2}
   - {fileID: 11400000, guid: 333eea8715d279d49bfbd1407be5f8bc, type: 2}
+  lifes: 3
   gameStats: {fileID: 1075322921}
 --- !u!114 &1075322918
 MonoBehaviour:

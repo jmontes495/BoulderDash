@@ -8,15 +8,17 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get { return instance; } }
     private PlayerMovementController playerMovementController;
     private BoulderMovementController boulderMovementController;
+    private PlayerPosition playerPosition;
 
     [SerializeField] private LevelRenderer levelRenderer;
     [SerializeField] private LevelConfig[] levels;
+    [SerializeField] private int lifes;
     [SerializeField] private GameStats gameStats;
     public GameStats GameStats { get { return gameStats; } }
 
     private bool gameInProgress;
     public bool GameInProgress { get { return gameInProgress; } set { gameInProgress = value; } }
-    public bool LevelsFinished { get { return levelIndex >= levels.Length; } }
+    public bool LevelsFinished { get { return levelIndex >= levels.Length - 1; } }
     private LevelConfig currentLevel;
     private int levelIndex = 0;
 
@@ -27,40 +29,53 @@ public class GameController : MonoBehaviour
             instance = this;
             playerMovementController = new PlayerMovementController();
             boulderMovementController = new BoulderMovementController();
+            playerPosition = GetComponent<PlayerPosition>();
             gameInProgress = false;
             DontDestroyOnLoad(gameObject);
         }
         else
             DestroyImmediate(this);
-    }    
+    }
 
-    public void LoadNextLevel()
+    public void LoadGame()
     {
+        levelIndex = 0;
+        LoadCurrentLevel();
+        gameStats.Initialize(lifes);
+        gameInProgress = true;
+    }
+
+    public void AdvanceLevel()
+    {
+        levelIndex++;
         if (levelIndex >= levels.Length)
             return;
 
+        LoadCurrentLevel();
+        gameInProgress = true;
+    }
+
+    private void LoadCurrentLevel()
+    {
         currentLevel = levels[levelIndex];
         currentLevel.LoadLevel();
-        gameStats.Initialize(3, currentLevel.GetRequiredGems());
-        gameStats.SetTime(currentLevel.GetSecondsToComplete());
+        gameStats.SetLevelVariables(currentLevel.GetSecondsToComplete(), currentLevel.GetRequiredGems());
         levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
-        if (GetComponent<PlayerPosition>() != null)
-            GetComponent<PlayerPosition>().InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
+        playerPosition.InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
+    }
 
-        gameInProgress = true;
-        levelIndex++;
+    public void OutOfLifes()
+    {
+        levelIndex = 0;
     }
 
     public void ReloadAfterDeath()
     {
-        if (GetComponent<PlayerPosition>() != null)
-        {
-            PlayerPosition playerPosition = GetComponent<PlayerPosition>();
-            currentLevel.ChangeCell(playerPosition.XPosition, playerPosition.YPosition, CellKind.Empty);
-            currentLevel.ChangeCell(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y, CellKind.Player);
-            playerPosition.InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
-            levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
-        }
+        currentLevel.ChangeCell(playerPosition.XPosition, playerPosition.YPosition, CellKind.Empty);
+        currentLevel.ChangeCell(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y, CellKind.Player);
+        playerPosition.InitializePosition(currentLevel.GetPlayerInitialPosition().x, currentLevel.GetPlayerInitialPosition().y);
+        levelRenderer.LoadLevel(currentLevel, currentLevel.GetPlayerInitialPosition().x - 3, currentLevel.GetPlayerInitialPosition().y - 3);
+        
         gameInProgress = true;
     }
 

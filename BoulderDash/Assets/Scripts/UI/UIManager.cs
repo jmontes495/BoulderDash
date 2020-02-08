@@ -26,21 +26,25 @@ public class UIManager : MonoBehaviour
         gameVariables.ShowElements(false);
         gameOver.SetActive(false);
         GameStats.LevelCompleted += ShowNextLevel;
-        GameStats.LifeLost += ShowPlayerDied;
+        GameStats.LifesUpdated += ShowPlayerDied;
     }
 
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            if (!GameController.Instance.GameInProgress && !showingTransition && !GameController.Instance.LevelsFinished && GameController.Instance.GameStats.Lifes > 0)
+            if (!GameController.Instance.GameInProgress && !showingTransition && !GameController.Instance.LevelsFinished)
             {
-                GameController.Instance.LoadNextLevel();
                 intro.SetActive(false);
                 nextLevel.SetActive(false);
                 board.SetActive(true);
                 gameVariables.ShowElements(true);
                 gameOver.SetActive(false);
+
+                if (GameController.Instance.GameStats.Lifes > 0)
+                    GameController.Instance.AdvanceLevel();
+                else
+                    GameController.Instance.LoadGame();
             }
         }
     }
@@ -67,8 +71,10 @@ public class UIManager : MonoBehaviour
             GameController.Instance.ReloadAfterDeath();
         else
         {
+            GameController.Instance.OutOfLifes();
             gameOver.SetActive(true);
             board.SetActive(false);
+            gameVariables.ShowElements(false);
         }
         showingTransition = false;
     }

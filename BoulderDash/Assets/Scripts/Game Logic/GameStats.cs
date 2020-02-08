@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameStats : MonoBehaviour
 {
     public delegate void StatsChange();
-    public static event StatsChange GemsIncreased;
-    public static event StatsChange LifeLost;
+    public static event StatsChange ValuesInitialized;
+    public static event StatsChange GemsUpdated;
+    public static event StatsChange LifesUpdated;
     public static event StatsChange TimeUpdated;
     public static event StatsChange LevelCompleted;
 
@@ -27,12 +28,19 @@ public class GameStats : MonoBehaviour
     public int TimeRemaining { get { return (int) timeRemaining; } }
     public bool LevelFinished { get { return levelFinished; } }
 
-    public void Initialize(int playerLifes, int gemsNeededForLevel)
+    public void Initialize(int playerLifes)
     {
         lifes = playerLifes;
+        score = 0;
+        ValuesInitialized();
+    }
+
+    public void SetLevelVariables(float time, int gemsNeededForLevel)
+    {
+        timeRemaining = time;
         gemsNeeded = gemsNeededForLevel;
         gemsCollected = 0;
-        GemsIncreased();
+        GemsUpdated();
     }
 
     private void FixedUpdate()
@@ -44,33 +52,32 @@ public class GameStats : MonoBehaviour
         TimeUpdated();
 
         if (timeRemaining <= 0)
+        {
             GameController.Instance.GameInProgress = false;
+            lifes = 0;
+            LifesUpdated();
+        }
     }
 
     public void IncreaseGems()
     {
         gemsCollected++;
         score += gemValue;
-        GemsIncreased();
+        GemsUpdated();
     }
 
     public void LoseLife()
     {
         lifes--;
-        LifeLost();
-    }    
-
-    public void SetTime(float time)
-    {
-        timeRemaining = time;
-    }
+        LifesUpdated();
+    }   
 
     public void PlayerFinishedLevel()
     {
         levelFinished = true;
         score += TimeRemaining * extraSecondValue;
         timeRemaining = 0;
-        GemsIncreased();
+        GemsUpdated();
         LevelCompleted();
     }
 
