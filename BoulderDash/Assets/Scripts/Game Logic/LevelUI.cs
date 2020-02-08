@@ -54,4 +54,11 @@ public class LevelUI : MonoBehaviour
         GameStats.GemsIncreased -= UpdateGemsCounter;
         GameStats.TimeUpdated -= UpdateTimer;
     }
+
+    public void ShowElements(bool state)
+    {
+        timer.gameObject.SetActive(state);
+        score.gameObject.SetActive(state);
+        gemsCounter.gameObject.SetActive(state);
+    }
 }

@@ -2672,7 +2672,7 @@ MonoBehaviour:
   intro: {fileID: 874015645}
   nextLevel: {fileID: 640572292}
   board: {fileID: 1345307128}
-  gameVariables: {fileID: 1432385126}
+  gameVariables: {fileID: 1432385128}
   endScreen: {fileID: 1135980178}
   finalScore: {fileID: 294003660}
   delayBeforeScreen: 1.5

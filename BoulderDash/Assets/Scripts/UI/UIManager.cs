@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject intro;
     [SerializeField] private GameObject nextLevel;
     [SerializeField] private GameObject board;
-    [SerializeField] private GameObject gameVariables;
+    [SerializeField] private LevelUI gameVariables;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private TextMeshProUGUI finalScore;
 
@@ -22,8 +22,7 @@ public class UIManager : MonoBehaviour
         intro.SetActive(true);
         nextLevel.SetActive(false);
         endScreen.SetActive(false);
-        gameVariables.SetActive(false);
-
+        gameVariables.ShowElements(false);
         GameStats.LevelCompleted += ShowNextLevel;
     }
 
@@ -35,7 +34,7 @@ public class UIManager : MonoBehaviour
             intro.SetActive(false);
             nextLevel.SetActive(false);
             board.SetActive(true);
-            gameVariables.SetActive(true);
+            gameVariables.ShowElements(true);
         }
     }
 
@@ -54,7 +53,7 @@ public class UIManager : MonoBehaviour
 
         nextLevel.SetActive(true);
         board.SetActive(false);
-        gameVariables.SetActive(false);
+        gameVariables.ShowElements(false);
         showingTransition = false;
     }
 
@@ -65,7 +64,7 @@ public class UIManager : MonoBehaviour
 
         endScreen.gameObject.SetActive(true);
         board.gameObject.SetActive(false);
-        gameVariables.SetActive(false);
+        gameVariables.ShowElements(false);
         finalScore.text = "Your final score is " + GameController.Instance.GameStats.Score;
         showingTransition = false;
     }
