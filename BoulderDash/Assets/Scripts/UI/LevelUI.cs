@@ -50,7 +50,7 @@ public class LevelUI : MonoBehaviour
     {
         if (gemsCounter != null)
         {
-            string color = GameController.Instance.GameStats.GemsCollected < GameController.Instance.GameStats.GemsNeeded ? "<color=#00FFFF>" : "<color=white>";
+            string color = GameController.Instance.GameStats.GemsCollected >= GameController.Instance.GameStats.GemsNeeded ? "<color=#00FFFF>" : "<color=white>";
             gemsCounter.text = color + "<sprite=1>" + GameController.Instance.GameStats.GemsCollected + "/" + GameController.Instance.GameStats.GemsNeeded + "</color>";
         }
 
